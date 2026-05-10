@@ -21,6 +21,12 @@ const WeatherCard = ({ data, isLoading }) => {
   const feelsLike = Math.round(data.main.feels_like);
   const condition = data.weather[0].main.toLowerCase();
 
+  const getDay = () => {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const date = new Date(data.dt * 1000);
+    return days[date.getDay()];
+  };
+
   const getConditionType = () => {
     if (condition.includes("rain") || condition.includes("drizzle")) {
       return "rain";
@@ -125,6 +131,7 @@ const WeatherCard = ({ data, isLoading }) => {
       <div className="card-header">
         <div>
           <h2>{data.name}</h2>
+          <p className="weather-day">{getDay()}</p>
           <p className="weather-description">{data.weather[0].description}</p>
         </div>
         <div className={`weather-icon-badge ${conditionType}`}>
