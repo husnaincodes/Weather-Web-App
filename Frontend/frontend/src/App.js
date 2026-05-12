@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import History from "./components/History";
-import { clearHistory, getHistory, getWeather } from "./services/weatherService";
+import { getHistory, getWeather } from "./services/weatherService";
 import "./App.css";
 
 function App() {
   const [weather, setWeather] = useState(null);
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isClearingHistory, setIsClearingHistory] = useState(false);
   const [error, setError] = useState("");
   const [isDark, setIsDark] = useState(false);
 
@@ -50,24 +49,6 @@ function App() {
     handleSearch(city);
   };
 
-  const handleClearHistory = async () => {
-    if (!history.length || isClearingHistory) {
-      return;
-    }
-
-    setIsClearingHistory(true);
-    setError("");
-
-    try {
-      await clearHistory();
-      setHistory([]);
-    } catch (err) {
-      setError(err.message || "Unable to clear search history");
-    } finally {
-      setIsClearingHistory(false);
-    }
-  };
-
   return (
     <div className={`app-shell${isDark ? " theme-dark" : ""}`}>
       <div className="aurora aurora-left" />
@@ -104,8 +85,6 @@ function App() {
             <History
               items={history}
               onSelect={handleHistorySelect}
-              onClear={handleClearHistory}
-              isClearing={isClearingHistory}
             />
           </aside>
         </section>

@@ -1,19 +1,11 @@
 import React from "react";
 
-const History = ({ items, onSelect, onClear, isClearing }) => {
+const History = ({ items, onSelect }) => {
   return (
     
     <div className="history-card">
       <div className="history-header">
         <h3>Recent Searches</h3>
-        <button
-          className="clear-history-button"
-          onClick={onClear}
-          disabled={!items.length || isClearing}
-          type="button"
-        >
-          {isClearing ? "Clearing..." : "Clear"}
-        </button>
       </div>
 
       {!items.length ? (
