@@ -70,6 +70,7 @@ const SearchBar = ({ onSearch, isLoading }) => {
       >
         {isLoading ? "Searching..." : "Search"}
       </button>
+      
     </form>
   );
 };
