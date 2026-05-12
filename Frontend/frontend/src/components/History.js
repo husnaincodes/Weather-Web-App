@@ -5,7 +5,7 @@ const History = ({ items, onSelect }) => {
     
     <div className="history-card">
       <div className="history-header">
-        <h3>Recent Searches</h3>
+        <h3>Top Searches</h3>
       </div>
 
       {!items.length ? (
