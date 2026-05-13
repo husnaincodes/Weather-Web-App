@@ -64,6 +64,7 @@ const SearchBar = ({ onSearch, isLoading }) => {
       </div>
 
       <button
+      
         className="search-button"
         type="submit"
         disabled={isLoading || !city.trim()}
