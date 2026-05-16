@@ -19,13 +19,33 @@ const WeatherCard = ({ data, isLoading }) => {
 
   const temp = Math.round(data.main.temp);
   const feelsLike = Math.round(data.main.feels_like);
+  const tempMin = Math.round(data.main.temp_min);
+  const tempMax = Math.round(data.main.temp_max);
   const condition = data.weather[0].main.toLowerCase();
+  const windSpeed = Math.round(data.wind.speed);
+  const windGust = data.wind.gust ? Math.round(data.wind.gust) : null;
+  const visibilityKm = data.visibility ? Math.round(data.visibility / 100) / 10 : null;
+  const cloudCover = typeof data.clouds?.all === "number" ? data.clouds.all : null;
+  const localDate = new Date((data.dt + data.timezone) * 1000);
+  const dayLabel = localDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    timeZone: "UTC",
+  });
+  const timeLabel = localDate.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
 
-  const getDay = () => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const date = new Date(data.dt * 1000);
-    return days[date.getDay()];
-  };
+  const formatTime = (timestamp) =>
+    new Date((timestamp + data.timezone) * 1000).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC",
+    });
+
+  const sunrise = formatTime(data.sys.sunrise);
+  const sunset = formatTime(data.sys.sunset);
 
   const getConditionType = () => {
     if (condition.includes("rain") || condition.includes("drizzle")) {
@@ -131,7 +151,10 @@ const WeatherCard = ({ data, isLoading }) => {
       <div className="card-header">
         <div>
           <h2>{data.name}</h2>
-          <p className="weather-day">{getDay()}</p>
+          <p className="weather-day">
+            {data.sys.country ? `${data.sys.country} · ${dayLabel}` : dayLabel}
+          </p>
+          <p className="weather-meta">Local time {timeLabel}</p>
           <p className="weather-description">{data.weather[0].description}</p>
         </div>
         <div className={`weather-icon-badge ${conditionType}`}>
@@ -140,6 +163,31 @@ const WeatherCard = ({ data, isLoading }) => {
       </div>
 
       <p className="temperature">{temp}°C</p>
+
+      <div className="weather-badges">
+        <span className="badge">Feels {feelsLike}°C</span>
+        <span className="badge">Humidity {data.main.humidity}%</span>
+        <span className={`badge${windGust && windGust >= 12 ? " alert" : ""}`}>
+          Wind {windSpeed} m/s{windGust ? ` · Gust ${windGust}` : ""}
+        </span>
+      </div>
+
+      <div className="hero-metrics">
+        <div className="metric">
+          <span>High / Low</span>
+          <strong>
+            {tempMax}° / {tempMin}°C
+          </strong>
+        </div>
+        <div className="metric">
+          <span>Sunrise</span>
+          <strong>{sunrise}</strong>
+        </div>
+        <div className="metric">
+          <span>Sunset</span>
+          <strong>{sunset}</strong>
+        </div>
+      </div>
 
       <div className="weather-grid">
         <div>
@@ -152,11 +200,19 @@ const WeatherCard = ({ data, isLoading }) => {
         </div>
         <div>
           <span>Wind</span>
-          <strong>{Math.round(data.wind.speed)} m/s</strong>
+          <strong>{windSpeed} m/s</strong>
         </div>
         <div>
           <span>Pressure</span>
           <strong>{data.main.pressure} hPa</strong>
+        </div>
+        <div>
+          <span>Visibility</span>
+          <strong>{visibilityKm ? `${visibilityKm} km` : "-"}</strong>
+        </div>
+        <div>
+          <span>Clouds</span>
+          <strong>{cloudCover !== null ? `${cloudCover}%` : "-"}</strong>
         </div>
       </div>
     </div>

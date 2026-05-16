@@ -7,6 +7,7 @@ const History = ({ items, onSelect }) => {
       <div className="history-header">
         <h3>Top Searches</h3>
       </div>
+      <p className="history-subtitle">Quickly revisit your latest city lookups.</p>
 
       {!items.length ? (
         <p className="history-empty">No searches yet.</p>

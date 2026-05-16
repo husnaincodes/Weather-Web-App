@@ -1,11 +1,11 @@
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  background-color: #f5f7fb;
-  color: #0f172a;
+  background-color: #eef2f4;
+  color: #0b1220;
 }
 
 * {

@@ -71,7 +71,7 @@ const SearchBar = ({ onSearch, isLoading }) => {
       >
         {isLoading ? "Searching..." : "Search"}
       </button>
-      
+      <p className="search-hint">Tip: Use city + country for precise results.</p>
     </form>
   );
 };
